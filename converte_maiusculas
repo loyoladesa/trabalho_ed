@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <ctype.h>
+
+
+int main(void) {
+  int c;
+  char entrada[121];
+  char saida[121];
+
+  printf("Digite o nome do arquivo de entrada:");
+  scanf("%120 s",entrada);
+
+  printf("Digite o nome do arquivo de saída:");
+  scanf("%120 s",saida);
+
+  FILE* e = fopen(entrada,"rt");
+
+  if(e == NULL){
+    printf("Erro na abertura do arquivo! \n");
+    return 1;
+  }
+
+  FILE* s = fopen(saida,"wt");
+
+  if(s == NULL){
+    printf("Erro na abertura do arquivo! \n");
+    fclose(e);
+    return 1;
+  }
+
+  while((c=fgetc(e))!= EOF){
+    fputc(toupper(c),s);
+  }
+
+  fclose(e);
+  fclose(s);
+
+ 
+  return 0;
+}
