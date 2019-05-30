@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+int main(void){
+
+	FILE* fp = fopen("figuras.txt","rt");
+
+	if(fp==NULL){
+		printf("Não foi possível abrir arquivo de entrada. \n");
+		return 1;
+	}
+
+	char linha[121];
+		
+
+	while(fgets(linha,121,fp)){
+		char c;
+		float v1,v2;
+
+		int n = sscanf(linha,"%c%f%f,&c ,&v1,&v2);
+		if(n>0){
+			switch(c){
+				case'#';
+					break;
+				case'r':
+					if(n!=3){
+
+					}
+				
+			}
+		}
+	}
+
+	fclose(fp);
+	
+	if(achou){
+		printf("Achou na linha %d. \n",n);
+		
+	}else{
+		printf("Não achou.");
+	
+	}
+	return 0;
+	
+}
