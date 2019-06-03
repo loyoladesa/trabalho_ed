@@ -4,6 +4,7 @@ typedef struct  ArvGen TAG;
 TAG* agen_cria(int(*cb)(void* chave,void* info));
 void agen_insere(TAG* a, void* chave, void* info);
 void* agen_busca(TAG* a,void* chave);
+void* busca(TNO* r,void* chave,int(*cmp)(void* chave, void* info));
 
 struct ArvGenNo{
 
@@ -20,7 +21,7 @@ struct ArvGen{
 };
 
 TAG* agen_cria(int(*cb)(void* chave,void* info)){
-	TAG* a = (TAG*)malloc(sizeof(ArvGen));
+	TAG* a = (TAG*)malloc(sizeof(TAG));
 	a->raiz = NULL;
 	a->cmp = cb;
 	return a;
@@ -40,7 +41,7 @@ static TNO* insere(TNO* r,void* chave,void* info,int(*cmp)(void* chave,void* inf
 		r->filho = r->irmao = NULL;
 	}else{
 
-    TNO* pai = busca(r,chave,info,cmp);
+    TNO* pai =(TNO*) busca(r,chave,cmp);
     TNO* filho = (TNO*)malloc(sizeof(TNO));
     filho->info = info;
 		filho->filho = filho->irmao = NULL;
@@ -59,7 +60,7 @@ void agen_insere(TAG* a, void* chave, void* info){
 }
 
 
-static void* busca(TNO* r,void* chave,int(*cmp)(void* chave, void* info)){
+void* busca(TNO* r,void* chave,int(*cmp)(void* chave, void* info)){
 	if(r==NULL){
 		 return NULL;
 	}else{
