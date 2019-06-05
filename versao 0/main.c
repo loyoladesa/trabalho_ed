@@ -6,6 +6,12 @@
 #include "minunit.h"
 
 int tests_run = 0;
+void esperava_int(int ve,int vr);
+void esperava_string(char* ve, char* vr);
+void esperava_float(float ve,float vr);
+
+char mensagem[121];
+char erro[121];
 
 static int cmp_cod_figura(void* chave, void* info){
   
@@ -34,13 +40,11 @@ static char * teste_cria(){
 	
 	TAG* a = agen_cria(cmp_cod_figura);
 
-	if(a->raiz == NULL){
-		funcionou = 1;
-	}else{
-		esperava_string("Valor Nulo","Raiz");
-	}
-	 mu_assert("[ERRO - criano]", funcionou == 1);
-	 return 0;
+	
+  strcpy(mensagem,"[ERRO - criano]");
+  esperava_string("Valor Nulo","Raiz");
+	mu_assert(erro, a->raiz == NULL);
+	return 0;
 }
 
 static char * teste_insere_figura(){
@@ -60,8 +64,9 @@ static char * teste_insere_figura(){
 	
 	TFIG* g = (TFIG*)a->raiz->info;
 	
-	
-	 mu_assert("[ERRO - insere_figura]", g->cod == 1);
+	strcpy(mensagem,"[ERRO - insere_figura]");
+  esperava_int(1,g->cod);
+	mu_assert(erro, g->cod == 1);
 	 
 	 return 0;
 }
@@ -76,8 +81,11 @@ static char* teste_busca(){
   void* chave = &cod;
   
   TFIG* f = agen_busca(a,chave);
-  
-  mu_assert("[ERRO_BUSCA",f->cod == 1);
+
+  strcpy(mensagem,"[ERRO - busca]");
+  esperava_int(1,f->cod);
+
+  mu_assert(erro,f->cod == 1);
   
 }
 
@@ -99,4 +107,16 @@ int main(void){
      	}
      	printf("Tests run: %d\n", tests_run);
  ;
+}
+
+void esperava_int(int ve,int vr){
+	 sprintf(erro,"%s -- Valor Esperado =  %d , Valor Real = %d\n",mensagem,ve,vr);
+}
+
+void esperava_string(char* ve, char* vr){
+	sprintf(erro,"%s -- Valor Esperado =  %s , Valor Real = %s\n",mensagem,ve,vr);
+}
+
+void esperava_float(float ve,float vr){
+	sprintf(erro,"%s -- Valor Esperado =  %.2f , Valor Real = %.2f\n",mensagem,ve,vr);
 }
