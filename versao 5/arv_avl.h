@@ -34,23 +34,23 @@ TAB* avl_cria(int(*cb)(void* chave,void* info)){
 }
 
 
-void libera(TBNO* t){
+void bin_libera(TBNO* t){
     if( t != NULL ){
-        libera( t->esq );
-        libera( t->dir );
+        bin_libera( t->esq );
+        bin_libera( t->dir );
         free( t );
     }
 }
 
 
-TBNO* busca(void* chave, TBNO* t,int(*cmp)(void* chave,void*info) ){
+TBNO* bin_busca(void* chave, TBNO* t,int(*cmp)(void* chave,void*info) ){
     if( t == NULL ) return NULL;
-    if(cmp(chave,t->info)<0 ) return busca( chave, t->esq,cmp );
-    if( cmp(chave,t->info)>0 ) return busca( chave, t->dir,cmp );
+    if(cmp(chave,t->info)<0 ) return bin_busca( chave, t->esq,cmp );
+    if( cmp(chave,t->info)>0 ) return bin_busca( chave, t->dir,cmp );
     return t->info;
 }
 void* avl_busca(TAB* a,void* chave){
-  return busca(chave,a->raiz,a->cmp);
+  return bin_busca(chave,a->raiz,a->cmp);
 }
 
 static int calc_alt( TBNO* n ){
@@ -99,7 +99,7 @@ static TBNO* rot_dir_esq( TBNO* k1 ){
 
 
 
-static TBNO* insere(TBNO* t ,void* chave,void* info,int(*cmp)(void* chave,void* info)){
+static TBNO* bin_insere(TBNO* t ,void* chave,void* info,int(*cmp)(void* chave,void* info)){
     if( t == NULL ){
         t = (TBNO*)malloc(sizeof(TBNO));
         if( t == NULL ){
@@ -114,7 +114,7 @@ static TBNO* insere(TBNO* t ,void* chave,void* info,int(*cmp)(void* chave,void* 
         }
     }else if( cmp(chave,t->info)<0 ){
        
-        t->esq = insere( t->esq,chave,info,cmp );
+        t->esq = bin_insere( t->esq,chave,info,cmp );
         if( calc_alt( t->esq ) - calc_alt( t->dir ) == 2 ){
             if( cmp(chave,t->esq->info)<0 ){
                 t = rot_dir( t );
@@ -125,7 +125,7 @@ static TBNO* insere(TBNO* t ,void* chave,void* info,int(*cmp)(void* chave,void* 
                 
     }else if( cmp(chave,t->info)>0 ){
         
-        t->dir = insere(t->dir, chave,info,cmp );
+        t->dir = bin_insere(t->dir, chave,info,cmp );
         if( calc_alt( t->dir ) - calc_alt( t->esq ) == 2 ){
             if( cmp(chave,t->dir->info)>0 ){
                 t = rot_esq( t );
@@ -141,7 +141,7 @@ static TBNO* insere(TBNO* t ,void* chave,void* info,int(*cmp)(void* chave,void* 
 }
 
 void avl_insere(TAB* a, void* chave, void* info){
-   a->raiz = insere(a->raiz,chave,info,a->cmp);
+   a->raiz = bin_insere(a->raiz,chave,info,a->cmp);
 }
 
 
@@ -175,13 +175,13 @@ int FB(TBNO *T){
 
 
 
-TBNO * retira(void* chave, TBNO *T,int(*cmp)(void* chave,void*info),int(*cb_chave)(void* info)){       
+TBNO * bin_retira(void* chave, TBNO *T,int(*cmp)(void* chave,void*info),int(*cb_chave)(void* info)){       
     TBNO *p;
     if(T==NULL)
         return NULL;
     else
         if( cmp(chave,T->info)>0){
-            T->dir=retira(chave,T->dir,cmp,cb_chave);
+            T->dir=bin_retira(chave,T->dir,cmp,cb_chave);
             if(FB(T)==2){
                 if(FB(T->esq)>=0){
                     T=rot_dir(T);
@@ -193,7 +193,7 @@ TBNO * retira(void* chave, TBNO *T,int(*cmp)(void* chave,void*info),int(*cb_chav
         }
         else
             if(cmp(chave,T->info)<0){
-                    T->esq=retira(chave,T->esq,cmp,cb_chave);
+                    T->esq=bin_retira(chave,T->esq,cmp,cb_chave);
                     if(FB(T)==-2){
                         if(FB(T->dir)<=0){
                             T=rot_esq(T);
@@ -212,7 +212,7 @@ TBNO * retira(void* chave, TBNO *T,int(*cmp)(void* chave,void*info),int(*cb_chav
                       T->info=p->info;
                       void* ch = cb_chave(p->info);
                   
-                      T->esq=retira(ch, T->esq,cmp,cb_chave);
+                      T->esq=bin_retira(ch, T->esq,cmp,cb_chave);
                       if(FB(T)== -2){
                         if(FB(T->dir)<=0){
                             T=rot_esq(T);
@@ -234,37 +234,37 @@ TBNO * retira(void* chave, TBNO *T,int(*cmp)(void* chave,void*info),int(*cb_chav
 }
 
 void* avl_remover(TAB* a,void* chave,void*(*cb_chave)(void* info)){
-  return retira(chave,a->raiz,a->cmp,cb_chave);
+  return bin_retira(chave,a->raiz,a->cmp,cb_chave);
 }
 static int min( int l, int r){
     return l < r ? l: r;
 }
 
-static int percorre(TBNO* r,int(*cb)(void* info, int dado),int dado){
+static int bin_percorre(TBNO* r,int(*cb)(void* info, int dado),int dado){
 	if(r!=NULL){
-		int s = percorre(r->esq,cb,dado+1);
+		int s = bin_percorre(r->esq,cb,dado+1);
 		if(s!=0)return s;
 		s = cb(r->info,dado);
 		if(s!=0)return s;
-		return percorre(r->dir,cb,dado+1);
+		return bin_percorre(r->dir,cb,dado+1);
 	}
 	return 0;
 }
 int avl_percorre(TAB* a,int(*cb)(void* info, int dado),int dado){
-  return percorre(a->raiz,cb,dado);
+  return bin_percorre(a->raiz,cb,dado);
 }
 
-static int percorre_gen(TBNO* r,int(*cb)(void* info, void* dado),void* dado){
+static int bin_percorre_gen(TBNO* r,int(*cb)(void* info, void* dado),void* dado){
 	if(r!=NULL){
-		int s = percorre(r->esq,cb,dado);
+		int s = bin_percorre_gen(r->esq,cb,dado);
 		if(s!=0)return s;
 		s = cb(r->info,dado);
 		if(s!=0)return s;
-		return percorre(r->dir,cb,dado);
+		return bin_percorre_gen(r->dir,cb,dado);
 	}
 	return 0;
 }
 int avl_percorre_gen(TAB* a,int(*cb)(void* info, void* dado),void* dado){
-  return percorre_gen(a->raiz,cb,dado);
+  return bin_percorre_gen(a->raiz,cb,dado);
 }
 
