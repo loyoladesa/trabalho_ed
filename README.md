@@ -1,10 +1,10 @@
 # trabalho_ed
-Trabalho de Estrura de Dados 2019-1
-	 Alunos:
-	 				Sidney Loyola de Sá
+Trabalho de Estrura de Dados 2019-1 <br>
+Alunos:<br>
+	 				Sidney Loyola de Sá<br>
 				  Bruno Vínicios Cunha de Sá
 
-	  O programa solicita o nome do arquivo a ser aberto.
+		O programa solicita o nome do arquivo a ser aberto.
 		Após a leitura do arquivo a arvore generica esta montada e pronta para ser explorada pelo usuario através do menu.
 		As seguintes funcionalidades foram implementadas:
 		(a) buscar figuras geométricas, por meio de um código único; 
