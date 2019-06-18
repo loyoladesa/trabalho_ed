@@ -504,8 +504,9 @@ int main()
 
                     if(estrutura == 1){
                         int verificar = 1;
-                        g = (TFIG*)agen->raiz->info;
-                        int cod_raiz = g->cod;
+                        TFIG* w = (TFIG*)agen->raiz->info;
+                        int cod_raiz = w->cod;
+
 
                         while(verificar){
                             if(agen_busca(agen,g) == NULL){
