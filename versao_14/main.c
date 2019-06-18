@@ -314,9 +314,7 @@ int main()
                         if(estrutura == 1){
                             agen_imprime(agen,cb_imprime);
                             int e = conta_nos(agen->raiz);
-                            printf("#####   ARVORE TAG  ######\n");
-                            printf("-----   %d elementos -----\n",e);
-                            printf("##########################\n\n");
+
                         }
                         if(estrutura == 2)abin_imprime(abin,cb_imprime);
                         if(estrutura == 3){
