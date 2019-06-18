@@ -496,8 +496,7 @@ int main()
 		        if(destruida){
                     printf("A estrutura já foi destruída.\n");
 		        }else{
-                    g = (TFIG*)agen->raiz->info;
-                    int cod_raiz = g->cod;
+
 
                     obterInt("Digite o codigo da figura: \n",leitura,&cod);
                     g = (TFIG*)malloc(sizeof(TFIG));
@@ -505,6 +504,8 @@ int main()
 
                     if(estrutura == 1){
                         int verificar = 1;
+                        g = (TFIG*)agen->raiz->info;
+                        int cod_raiz = g->cod;
 
                         while(verificar){
                             if(agen_busca(agen,g) == NULL){
@@ -568,6 +569,7 @@ int main()
 
                     }
                     if(estrutura == 2){
+
                         while(abin_busca(abin, g) == NULL){
 
                                     obterInt("Não existe figura com esse código. \nDigite o codigo da figura: \n",leitura,&cod);
