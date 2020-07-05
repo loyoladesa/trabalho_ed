@@ -1,4 +1,6 @@
-/* Teste de Histórico de Versões Github */
+/* Teste de Histórico de Versões de arquivo no Github
+    Escrita de bons commits  */
+
 
 typedef struct listaNo TLNO;
 typedef struct lista TLG;
